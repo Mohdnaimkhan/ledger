@@ -13,12 +13,19 @@
 
   <body class="bg-light">
     <div class="container py-4">
+      <a
+        th:href="@{/customers}"
+        class="btn btn-secondary my-2"
+        style="width: 100px"
+      >
+        ← Back
+      </a>
       <div class="row g-3">
         <!-- Customer Info -->
         <div class="col-lg-8">
           <div class="card shadow-sm">
             <div class="card-body">
-              <h3 th:text="${customer.name}"></h3>
+              <h3 th:text="${customer.firstName + ' ' +customer.lastName}"></h3>
 
               <hr />
 
@@ -58,6 +65,42 @@
           </div>
         </div>
       </div>
+      <div class="row g-3 align-items-stretch mb-3 mt-2">
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-info h-100">
+            <div class="card-body text-center">
+                <h6>Total Entries</h6>
+                <h3 class="text-info" th:text="${totalEntries}"></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-warning h-100">
+            <div class="card-body text-center">
+                <h6>Today's Entries</h6>
+                <h3 class="text-warning" th:text="${todayEntries}"></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <form method="get" class="h-100">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    <input
+                        type="text"
+                        name="keyword"
+                        class="form-control"
+                        placeholder="Search entry..."
+                    />
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
 
       <!-- Entries -->
 
@@ -73,7 +116,7 @@
                   <th>Type</th>
                   <th>Amount</th>
                   <th>Description</th>
-                  <th>Balance</th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
@@ -100,16 +143,23 @@
                   <td th:text="${entry.amount}"></td>
 
                   <td th:text="${entry.description}"></td>
-
                   <td>
-                    
-                    <span
-                      th:class="${entry.balance.signum() < 0}
-                  ? 'text-danger fw-bold'
-                  : 'text-success fw-bold'"
-                      th:text="${entry.balance}"
+                    <a
+                      class="btn btn-warning btn-sm"
+                      th:href="@{/customers/{customerId}/entries/edit/{entryId}
+       (customerId=${customer.id},entryId=${entry.id})}"
                     >
-                    </span>
+                      Edit
+                    </a>
+
+                    <a
+                      class="btn btn-danger btn-sm"
+                      th:href="@{/customers/{customerId}/entries/delete/{entryId}
+       (customerId=${customer.id},entryId=${entry.id})}"
+                      onclick="return confirm('Delete Entry ?');"
+                    >
+                      Delete
+                    </a>
                   </td>
                 </tr>
               </tbody>

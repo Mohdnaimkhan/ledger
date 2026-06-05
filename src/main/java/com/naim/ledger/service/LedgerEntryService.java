@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class LedgerEntryService {
     }
 
     public List<LedgerEntry> getEntriesByCustomerId(Long customerId) {
-        return ledgerEntryRepository.findByCustomerId(customerId);
+        return ledgerEntryRepository.findByCustomerIdOrderByEntryDateDesc(customerId);
     }
 
     public BigDecimal calculateBalance(Long customerId) {
@@ -65,6 +66,7 @@ public class LedgerEntryService {
 
             result.add(
                     new EntryView(
+                            entry.getId(),
                             entry.getEntryDate(),
                             entry.getType(),
                             entry.getAmount(),
@@ -73,5 +75,71 @@ public class LedgerEntryService {
         }
 
         return result;
+    }
+
+    public LedgerEntry getById(Long id) {
+        return ledgerEntryRepository.findById(id)
+                .orElseThrow();
+    }
+
+    public void deleteById(Long id) {
+        ledgerEntryRepository.deleteById(id);
+    }
+
+    public BigDecimal getTotalGiven() {
+
+        return ledgerEntryRepository.findAll()
+                .stream()
+                .filter(e -> e.getType() == EntryType.GIVEN)
+                .map(LedgerEntry::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal getTotalReceived() {
+
+        return ledgerEntryRepository.findAll()
+                .stream()
+                .filter(e -> e.getType() == EntryType.RECEIVED)
+                .map(LedgerEntry::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal getNetBalance() {
+
+        return getTotalGiven()
+                .subtract(getTotalReceived());
+    }
+
+    public List<LedgerEntry> getRecentEntries() {
+        return ledgerEntryRepository
+                .findTop10ByOrderByIdDesc();
+    }
+
+    public long getTotalEntries(Long customerId) {
+        return ledgerEntryRepository.countByCustomerId(customerId);
+    }
+
+    public long getTodayEntries(Long customerId) {
+
+        return ledgerEntryRepository
+                .countByCustomer_IdAndEntryDate(
+                        customerId,
+                        LocalDate.now());
+    }
+
+    public List<LedgerEntry> searchEntries(
+            Long customerId,
+            String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+
+            return ledgerEntryRepository
+                    .findByCustomerIdOrderByEntryDateDesc(customerId);
+        }
+
+        return ledgerEntryRepository
+                .findByCustomer_IdAndDescriptionContainingIgnoreCase(
+                        customerId,
+                        keyword);
     }
 }

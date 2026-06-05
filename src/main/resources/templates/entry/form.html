@@ -32,7 +32,7 @@
                     <div class="alert alert-info">
 
                         Customer :
-                        <strong th:text="${customer.name}"></strong>
+                        <strong th:text="${customer.firstName + ' ' + customer.lastName}"></strong>
 
                     </div>
 
@@ -83,7 +83,7 @@
                                 Amount
                             </label>
 
-                            <input type="number"
+                            <input type="text"
                                    class="form-control form-control-lg"
                                    th:field="*{amount}"
                                    placeholder="Enter amount"

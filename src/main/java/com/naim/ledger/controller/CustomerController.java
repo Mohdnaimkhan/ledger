@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.naim.ledger.entity.Customer;
 import com.naim.ledger.service.CustomerService;
@@ -53,7 +54,8 @@ public class CustomerController {
     @GetMapping("/{id}")
     public String details(
             @PathVariable Long id,
-            Model model) {
+            Model model,
+            @RequestParam(required = false) String keyword) {
 
         Customer customer = customerService.getById(id);
 
@@ -65,6 +67,17 @@ public class CustomerController {
         model.addAttribute(
                 "balance",
                 ledgerEntryService.calculateBalance(id));
+        model.addAttribute(
+                "totalEntries",
+                ledgerEntryService.getTotalEntries(id));
+        model.addAttribute(
+                "todayEntries",
+                ledgerEntryService.getTodayEntries(id));
+        model.addAttribute(
+                "entries",
+                ledgerEntryService.searchEntries(
+                        id,
+                        keyword));
 
         return "customer/details";
     }

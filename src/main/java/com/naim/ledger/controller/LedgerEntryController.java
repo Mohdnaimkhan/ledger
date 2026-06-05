@@ -46,4 +46,30 @@ public class LedgerEntryController {
 
         return "redirect:/customers/" + customerId;
     }
+
+    @GetMapping("/edit/{entryId}")
+    public String editEntry(
+            @PathVariable Long customerId,
+            @PathVariable Long entryId,
+            Model model) {
+
+        Customer customer = customerService.getById(customerId);
+
+        LedgerEntry ledgerEntry = ledgerEntryService.getById(entryId);
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("ledgerEntry", ledgerEntry);
+
+        return "entry/form";
+    }
+
+    @GetMapping("/delete/{entryId}")
+    public String deleteEntry(
+            @PathVariable Long customerId,
+            @PathVariable Long entryId) {
+
+        ledgerEntryService.deleteById(entryId);
+
+        return "redirect:/customers/" + customerId;
+    }
 }

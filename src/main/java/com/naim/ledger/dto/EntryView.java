@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class EntryView {
-
+    private long id;
     private LocalDate entryDate;
     private EntryType type;
     private BigDecimal amount;
