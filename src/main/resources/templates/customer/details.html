@@ -12,21 +12,15 @@
   </head>
 
   <body class="bg-light">
+    <div th:replace="~{fragments/navbar}"></div>
     <div class="container py-4">
-      <a
-        th:href="@{/customers}"
-        class="btn btn-secondary my-2"
-        style="width: 100px"
-      >
-        ← Back
-      </a>
       <div class="row g-3">
         <!-- Customer Info -->
         <div class="col-lg-8">
           <div class="card shadow-sm">
             <div class="card-body">
-              <h3 th:text="${customer.firstName + ' ' +customer.lastName}"></h3>
-
+              <h3 th:text="${customer.shopName}"></h3>
+              <p th:text="${customer.firstName + ' ' +customer.lastName}"></p>
               <hr />
 
               <p class="mb-2">
@@ -168,5 +162,6 @@
         </div>
       </div>
     </div>
+    
   </body>
 </html>
