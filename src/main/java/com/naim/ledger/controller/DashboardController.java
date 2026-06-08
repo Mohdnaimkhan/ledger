@@ -2,20 +2,20 @@ package com.naim.ledger.controller;
 
 import com.naim.ledger.service.CustomerService;
 import com.naim.ledger.service.LedgerEntryService;
-import com.naim.ledger.service.SettingsServices;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequiredArgsConstructor
-public class DashboardController {
 
-        private final CustomerService customerService;
-        private final LedgerEntryService ledgerEntryService;
-        private final SettingsServices setteingsServices;
+public class DashboardController {
+        
+        @Autowired
+        private  CustomerService customerService;
+        @Autowired
+        private  LedgerEntryService ledgerEntryService;
 
         @GetMapping("/")
         public String dashboard(Model model) {
@@ -38,9 +38,13 @@ public class DashboardController {
                 model.addAttribute(
                                 "recentEntries",
                                 ledgerEntryService.getRecentEntries());
-        
-
                 return "dashboard";
+
+        }
+
+        @GetMapping("/about")
+        public String getAbout() {
+                return "about";
         }
 
 }

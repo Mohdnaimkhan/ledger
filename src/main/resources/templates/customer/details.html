@@ -106,6 +106,7 @@
             <table class="table table-hover">
               <thead class="table-dark">
                 <tr>
+                  <th>Slip No.</th>
                   <th>Date</th>
                   <th>Type</th>
                   <th>Amount</th>
@@ -116,6 +117,8 @@
 
               <tbody>
                 <tr th:each="entry : ${entries}">
+                  <td th:text="${entry.slip}"></td>
+
                   <td th:text="${entry.entryDate}"></td>
 
                   <td>

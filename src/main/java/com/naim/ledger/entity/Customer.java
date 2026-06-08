@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class Customer {
 
     @Id
@@ -19,10 +20,11 @@ public class Customer {
     private Long id;
 
     private String shopName;
+
     private String firstName;
 
     private String lastName;
-    
+
     private String mobile;
 
     private String address;

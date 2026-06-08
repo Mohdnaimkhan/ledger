@@ -4,18 +4,21 @@ import com.naim.ledger.entity.Customer;
 import com.naim.ledger.entity.LedgerEntry;
 import com.naim.ledger.service.CustomerService;
 import com.naim.ledger.service.LedgerEntryService;
-import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequiredArgsConstructor
+
 @RequestMapping("/customers/{customerId}/entries")
 public class LedgerEntryController {
 
-    private final CustomerService customerService;
-    private final LedgerEntryService ledgerEntryService;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private LedgerEntryService ledgerEntryService;
 
     @GetMapping("/new")
     public String newEntry(

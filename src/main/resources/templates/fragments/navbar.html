@@ -10,7 +10,9 @@
            th:text="${settings.businessName != null && !settings.businessName.isBlank()
                 ? '📒 ' + settings.businessName
                 : '📒 Ledger Book'}">
+
             📒 Ledger Book
+
         </a>
 
         <!-- Mobile Toggle -->
@@ -23,11 +25,11 @@
 
         </button>
 
-        <!-- Menu -->
         <div class="collapse navbar-collapse"
              id="navbarNav">
 
-            <ul class="navbar-nav ms-auto">
+            <!-- Left Menu -->
+            <ul class="navbar-nav me-auto">
 
                 <li class="nav-item">
                     <a class="nav-link"
@@ -47,6 +49,18 @@
                     <a class="nav-link"
                        th:href="@{/customers/new}">
                         ➕ Add Customer
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Right Menu -->
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       th:href="@{/about}">
+                        ℹ️ About
                     </a>
                 </li>
 

@@ -4,7 +4,8 @@ import com.naim.ledger.dto.*;
 import com.naim.ledger.entity.LedgerEntry;
 import com.naim.ledger.others.EntryType;
 import com.naim.ledger.repo.LedgerEntryRepository;
-import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class LedgerEntryService {
 
-    private final LedgerEntryRepository ledgerEntryRepository;
+public class LedgerEntryService {
+    @Autowired
+    private LedgerEntryRepository ledgerEntryRepository;
 
     public LedgerEntry save(LedgerEntry ledgerEntry) {
         return ledgerEntryRepository.save(ledgerEntry);
